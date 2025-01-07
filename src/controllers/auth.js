@@ -40,5 +40,6 @@ export const loginController = async (req, res) => {
 };
 
 export const refreshTokenController = async (req, res) => {
-    req.cookies
+  const { refreshToken, sessionId } = req.cookies;
+  const session = await authServices.refreshToken({refreshToken, sessionId})
 }

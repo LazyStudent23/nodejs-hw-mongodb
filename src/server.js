@@ -16,7 +16,7 @@ export const startServer = () => {
 
   app.use(cors());
   app.use(express.json());
-  app.use(cookieParser())
+  app.use(cookieParser());
   // app.use(logger);
 
   app.use('/auth', authRouter);
