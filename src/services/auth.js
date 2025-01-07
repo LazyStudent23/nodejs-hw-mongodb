@@ -51,6 +51,24 @@ export const login = async ({ email, password }) => {
   });
 };
 
+export const refreshToken = async (payload) => {
+  const session = await SessionCollection.findOne({
+    _id: payload.sessionId,
+    refreshToken: payload.refreshToken,
+  })
+  if (!session) {
+    throw createHttpError(401, 'Session not found')
+  }
+  if (Date.mow() > session.refreshTokenValidUntil) {
+    throw createHttpError(401, 'Refresh token expired')
+  }
+
+  await SessionCollection.deleteOne({ id: payload.sessionId })
+  
+  const accessToken = randomBytes(30).toString('base64');
+  const refreshToken = randomBytes(30).toString('base64');
+}
+
 export const getUser = filter => SessionCollection.findOne(filter)
 
 export const getSession = (filter) => SessionCollection.findOne(filter);
