@@ -2,7 +2,7 @@ import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
 
-import UserCollecion from '../db/models/User.js';
+import UserCollection from '../db/models/User.js';
 import SessionCollection from '../db/models/Session.js';
 
 import {
@@ -19,14 +19,14 @@ const createSessionData = () => ({
 
 export const register = async (payload) => {
   const { email, password } = payload;
-  const user = await UserCollecion.findOne({ email });
+  const user = await UserCollection.findOne({ email });
   if (user) {
     throw createHttpError(409, 'Email in use');
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await UserCollecion.create({
+  const newUser = await UserCollection.create({
     ...payload,
     password: hashPassword,
   });
@@ -35,7 +35,7 @@ export const register = async (payload) => {
 };
 
 export const login = async ({ email, password }) => {
-  const user = await UserCollecion.findOne({ email });
+  const user = await UserCollection.findOne({ email });
   if (!user) {
     throw createHttpError(401, 'Email or password invalid');
   }
@@ -80,6 +80,6 @@ export const logout = async sessionId => {
   await SessionCollection.deleteOne({_id: sessionId})
 }
 
-export const getUser = (filter) => SessionCollection.findOne(filter);
+export const getUser = (filter) => UserCollection.findOne(filter);
 
 export const getSession = (filter) => SessionCollection.findOne(filter);
