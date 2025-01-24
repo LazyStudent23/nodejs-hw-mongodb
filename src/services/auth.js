@@ -76,9 +76,13 @@ export const refreshToken = async (payload) => {
   });
 };
 
-export const logout = async sessionId => {
-  await SessionCollection.deleteOne({_id: sessionId})
-}
+export const logout = async (sessionId) => {
+  await SessionCollection.deleteOne({ _id: sessionId });
+};
+
+export const sendResetEmail = async () => {};
+
+export const resetPwd = async () => {};
 
 export const getUser = (filter) => UserCollection.findOne(filter);
 

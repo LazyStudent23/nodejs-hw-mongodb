@@ -25,4 +25,8 @@ authRouter.post('/refresh', ctrlWrapper(authController.refreshTokenController));
 
 authRouter.post('/logout', ctrlWrapper(authController.logoutController));
 
+authRouter.post('/send-reset-email', ctrlWrapper(authController.sendResetEmailController));
+
+authRouter.post('/reset-pwd', ctrlWrapper(authController.resetPwdController))
+
 export default authRouter;
