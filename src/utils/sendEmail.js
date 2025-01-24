@@ -1,24 +1,18 @@
-import brevo from '@getbrevo/brevo';
-let apiInstance = new brevo.TransactionalEmailsApi();
 
-let apiKey = apiInstance.authentications['apiKey'];
-apiKey.apiKey = 'YOUR API KEY';
+import nodemailer from 'nodemailer';
 
-let sendSmtpEmail = new brevo.SendSmtpEmail();
+import { SMTP } from '../constants/index.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
 
-sendSmtpEmail.subject = "My {{params.subject}}";
-sendSmtpEmail.htmlContent = "<html><body><h1>Common: This is my first transactional email {{params.parameter}}</h1></body></html>";
-sendSmtpEmail.sender = { "name": "John", "email": "shubham.upadhyay@sendinblue.com" };
-sendSmtpEmail.to = [
-  { "email": "shubham.upadhyay@sendinblue.com", "name": "shubham upadhyay" }
-];
-sendSmtpEmail.replyTo = { "email": "shubham.upadhyay@sendinblue.com", "name": "Shubham Upadhyay" };
-sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
-sendSmtpEmail.params = { "parameter": "My param value", "subject": "common subject" };
-
-
-apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
-  console.log('API called successfully. Returned data: ' + JSON.stringify(data));
-}, function (error) {
-  console.error(error);
+const transporter = nodemailer.createTransport({
+  host: getEnvVar(SMTP.SMTP_HOST),
+  port: Number(getEnvVar(SMTP.SMTP_PORT)),
+  auth: {
+    user: getEnvVar(SMTP.SMTP_USER),
+    pass: getEnvVar(SMTP.SMTP_PASSWORD),
+  },
 });
+
+export const sendEmail = async (options) => {
+  return await transporter.sendMail(options);
+};

@@ -11,12 +11,15 @@ import contactsRouter from './routers/contact.js';
 
 import { getEnvVar } from './utils/getEnvVar.js';
 
+import { UPLOAD_DIR } from './constants/index.js';
+
 export const startServer = () => {
   const app = express();
 
   app.use(cors());
   app.use(express.json());
   app.use(cookieParser());
+  app.use('/uploads', express.static(UPLOAD_DIR));
   // app.use(logger);
 
   app.use('/auth', authRouter);
