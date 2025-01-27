@@ -6,6 +6,8 @@ import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseContactFilterParams } from '../utils/parseContactFilterParams.js';
 
+import { getEnvVar } from '../utils/getEnvVar.js';
+
 import { sortByList } from '../db/models/Contact.js';
 
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
