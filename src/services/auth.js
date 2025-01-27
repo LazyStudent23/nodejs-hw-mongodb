@@ -94,12 +94,12 @@ export const loginOrRegisterWithGoogle = async code => {
   let user = await UserCollection.findOne({ email: payload.email });
   console.log('work');
   if (!user) {
-    const username = getUsernameFromGoogleTokenPayload(payload);
+    const name = getUsernameFromGoogleTokenPayload(payload);
     const password = await bcrypt.hash(randomBytes(10).toString('base64'), 10)
 
     user = await UserCollection.create({
       email: payload.email,
-      username,
+      name,
       password,
     })
   }
